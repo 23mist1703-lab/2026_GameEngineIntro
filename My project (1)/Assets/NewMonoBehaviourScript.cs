@@ -1,7 +1,9 @@
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -22,11 +24,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
         moveInput = value.Get<Vector2>();
     }
     public void OnJump(InputValue value)
+    
     {
         if (value.isPressed)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
+    
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -54,6 +58,21 @@ public class NewMonoBehaviourScript : MonoBehaviour
         }
         transform.Translate(Vector3.right * moveSpeed*moveInput.x * Time.deltaTime);
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+{
+    if (collision.name == "Death")
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+    else
+    {
+        SceneManager.LoadScene("PlayScene_" + collision.name); 
+    }
+}
+  
+     
+    
+    
 
 
 }
